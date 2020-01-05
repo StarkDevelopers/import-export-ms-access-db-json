@@ -8,12 +8,9 @@ import example.objects.MH;
 import example.objects.MH_Connection;
 import example.objects.MH_Inspection;
 
-import java.io.InputStream;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
