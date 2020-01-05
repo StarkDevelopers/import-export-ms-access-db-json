@@ -6,19 +6,17 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.S3Object;
-import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.amazonaws.services.s3.model.*;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 public class AWS {
     AWSCredentials credentials = new BasicAWSCredentials(
-            "AKIAJJFJYZHIOREASTLQ",
-            "W6a+WfInU8iC/PuAmB7QqEdllwXDf4Lsrakc7/fe"
+            "AKIAJBOMIEQQHNW5HYPA",
+            "wR308SbWNCLVvXNeg8p8lBmgIbkNkCrZsyjP11uL"
     );
     AmazonS3 s3Client;
     public void init() {
@@ -28,12 +26,15 @@ public class AWS {
             .withRegion(Regions.AP_SOUTH_1)
             .build();
     }
-    public void uploadFile(String bucketName, String filePath, String uploadPath) {
-        this.s3Client.putObject(
-            bucketName,
-            uploadPath,
-            new File(filePath)
-        );
+    public void uploadFile(String bucketName, String filePath, String uploadPath) throws FileNotFoundException {
+        InputStream fileStream = new FileInputStream(new File(filePath));
+
+        this.s3Client.putObject(new PutObjectRequest(
+                bucketName,
+                uploadPath,
+                fileStream,
+                new ObjectMetadata()
+        ).withCannedAcl(CannedAccessControlList.PublicRead));
 
         System.out.println("File Uploaded to S3 Successfully");
     }
